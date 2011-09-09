@@ -4,6 +4,7 @@ package com.cobalto.components.gallery
 	import com.cobalto.components.buttons.PrimitiveButton;
 	import com.cobalto.components.menu.BasicMenu;
 	import com.cobalto.loading.BulkLoader;
+	import com.cobalto.loading.loadingtypes.ImageItem;
 	
 	import flash.display.Bitmap;
 	import flash.display.DisplayObject;
@@ -14,6 +15,8 @@ package com.cobalto.components.gallery
 	import flash.events.HTTPStatusEvent;
 	import flash.events.ProgressEvent;
 	import flash.system.LoaderContext;
+	
+	import org.hamcrest.object.nullValue;
 	
 	public class AbstractGallery extends Sprite implements IMenu
 	{
@@ -99,21 +102,22 @@ package com.cobalto.components.gallery
 			
 			//var loaderContext:LoaderContext = new LoaderContext();
 			//loaderContext.checkPolicyFile = true;
+			var l:uint = urlArray.length;
 			
-			for(var i:int = 0;i < urlArray.length;i++)
+			for(var i:int = 0;i < l; i++)
 			{
 				//_multiLoader.add(urlArray[i],{id:"img" + i,type:"image",index:i,context:loaderContext});
-				_multiLoader.add(urlArray[i],{id:"img" + i,type:"image",index:i});
-				_multiLoader.get("img" + i).addEventListener(Event.COMPLETE,onImgInit);
-				_multiLoader.get("img" + i).addEventListener(ProgressEvent.PROGRESS,onImgProgress);
-				
+				_multiLoader.add(urlArray[i],{id:i,type:BulkLoader.TYPE_IMAGE,index:i});
+				_multiLoader.get(i).addEventListener(Event.COMPLETE,onImgInit);
+				_multiLoader.get(i).addEventListener(ProgressEvent.PROGRESS,onImgProgress);
+				_multiLoader.get(i).addEventListener(BulkLoader.ERROR,onError);
 				//_multiLoader.get("img" + i).addEventListener(BulkLoader.HTTP_STATUS,onHttpStatusHandler);
-				_multiLoader.get("img" + i).addEventListener(BulkLoader.ERROR,onError);
+				
 				
 			}
 			
 			_multiLoader.addEventListener(BulkLoader.PROGRESS,onImgProgress);
-			_multiLoader.start(1);
+			_multiLoader.start();
 		
 		}
 		
@@ -143,17 +147,23 @@ package com.cobalto.components.gallery
 		{
 			if(_imageArray)
 			{
-				var id:int = _multiLoader.itemsLoaded - 1;
-				_multiLoader.get("img" + id).removeEventListener(Event.COMPLETE,onImgInit);
-				_multiLoader.get("img" + id).removeEventListener(ProgressEvent.PROGRESS,onImgProgress);
 				
-				_multiLoader.get("img" + id).removeEventListener(BulkLoader.ERROR,onError);
-				_multiLoader.get("img" + id).removeEventListener(HTTPStatusEvent.HTTP_STATUS,onHttpStatusHandler);
+				var imageItem:ImageItem = ImageItem(e.target);
 				
-				var img:Bitmap = _multiLoader.getBitmap("img" + id);
+				var id:int = int(imageItem.id);
+				
+				_multiLoader.get(id).removeEventListener(Event.COMPLETE,onImgInit);
+				_multiLoader.get(id).removeEventListener(ProgressEvent.PROGRESS,onImgProgress);
+				_multiLoader.get(id).removeEventListener(BulkLoader.ERROR,onError);
+				_multiLoader.get(id).removeEventListener(HTTPStatusEvent.HTTP_STATUS,onHttpStatusHandler);
+				
+				var img:Bitmap = imageItem.content as Bitmap;
 				
 				if(img !== null)
+				{
 					img.smoothing = true;
+				}
+				
 				var bt:PrimitiveButton = _imgMenu.itemArray[id].mc;
 				bt.skin = img;
 				setImgY(bt);
@@ -162,12 +172,11 @@ package com.cobalto.components.gallery
 				
 				dispatchEvent(new Event(IMAGE_LOADED));
 				
-				//trace(" . . . . . . . . . . . . . . . . . . . . . . . . . . img id     = " + _multiLoader.get("img" + id).id);
-				_lastImageLoadedID = uint(String(_multiLoader.get("img" + id).id).slice(3));
+				_lastImageLoadedID = id;
 				
 				//trace(_lastImageLoadedID + " last id");
 				
-				if(_multiLoader.get("img" + id).id == "img0")
+				if(id == 0)
 				{
 					dispatchEvent(new Event(FIRST_IMAGE_LOADED));
 				}
@@ -205,16 +214,20 @@ package com.cobalto.components.gallery
 				
 				for(var i:uint = 0;i < l;i++)
 				{
-					if(_imageArray[i].mc)
+					if(_imageArray[i])
 					{
-						if(_imageArray[i].mc.skin)
+						if(_imageArray[i].img)
 						{
-							_imageArray[i].mc.removeChild(_imageArray[i].mc.skin);
+							_imageArray[i].img = null;
 						}
 					}
-					_multiLoader.get(i).removeEventListener(Event.COMPLETE,onImgInit);
-					_multiLoader.get(i).removeEventListener(ProgressEvent.PROGRESS,onImgProgress);
-					_multiLoader.get(i).removeEventListener(BulkLoader.ERROR,onError);
+					
+					if(_multiLoader.get(i))
+					{
+						_multiLoader.get(i).removeEventListener(Event.COMPLETE,onImgInit);
+						_multiLoader.get(i).removeEventListener(ProgressEvent.PROGRESS,onImgProgress);
+						_multiLoader.get(i).removeEventListener(BulkLoader.ERROR,onError);
+					}
 				}
 			}
 			
@@ -229,7 +242,7 @@ package com.cobalto.components.gallery
 				_imgMenu.removeEventListener(PrimitiveButton.BUTTON_OUT,onImgOut);
 				
 			}
-			//trace("destroy gallery");
+		
 			_imageArray = null;
 		
 		}
