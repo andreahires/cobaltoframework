@@ -265,6 +265,10 @@
 				MemoryUtils.removeFromStage(_hitArea);
 			}
 			
+			if(stage)
+			{
+			}
+			
 			MemoryUtils.removeFromStage(_skin);
 			_state = null;
 		
