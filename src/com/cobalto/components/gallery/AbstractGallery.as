@@ -1,5 +1,6 @@
 package com.cobalto.components.gallery
 {
+	import com.cobalto.loading.loadingtypes.LoadingItem;
 	import com.cobalto.api.IMenu;
 	import com.cobalto.components.buttons.PrimitiveButton;
 	import com.cobalto.components.menu.BasicMenu;
@@ -101,13 +102,13 @@ package com.cobalto.components.gallery
 			 
 		
 			var l:uint = urlArray.length;
-			
+			var item:LoadingItem;
 			for(var i:int = 0;i < l; i++)
 			{
-				_multiLoader.add(urlArray[i],{id:i,type:BulkLoader.TYPE_IMAGE,index:i});
-				_multiLoader.get(urlArray[i]).addEventListener(Event.COMPLETE,onImgInit);
-				_multiLoader.get(urlArray[i]).addEventListener(ProgressEvent.PROGRESS,onImgProgress);
-				_multiLoader.get(urlArray[i]).addEventListener(BulkLoader.ERROR,onError);
+				item = _multiLoader.add(urlArray[i],{id:i,type:BulkLoader.TYPE_IMAGE,index:i});
+				item.addEventListener(Event.COMPLETE,onImgInit);
+				item.addEventListener(ProgressEvent.PROGRESS,onImgProgress);
+				item.addEventListener(BulkLoader.ERROR,onError);
 				//_multiLoader.get("img" + i).addEventListener(BulkLoader.HTTP_STATUS,onHttpStatusHandler);	
 			}
 			
@@ -205,24 +206,32 @@ package com.cobalto.components.gallery
 			
 			if(_imageArray)
 			{
-				var l:uint = _imageArray.length;
-				
-				for(var i:uint = 0;i < l;i++)
-				{
-					if(_imageArray[i])
-					{
-						if(_imageArray[i].img)
-						{
-							_imageArray[i].img = null;
-						}
-					}
-					
-					if(_multiLoader.get(i))
-					{
-						_multiLoader.get(i).removeEventListener(Event.COMPLETE,onImgInit);
-						_multiLoader.get(i).removeEventListener(ProgressEvent.PROGRESS,onImgProgress);
-						_multiLoader.get(i).removeEventListener(BulkLoader.ERROR,onError);
-					}
+//				var l:uint = _imageArray.length;
+//				
+//				for(var i:uint = 0;i < l;i++)
+//				{
+//					if(_imageArray[i])
+//					{
+//						if(_imageArray[i].img)
+//						{
+//							_imageArray[i].img = null;
+//						}
+//					}
+//					
+//					if(_multiLoader.get(i))
+//					{
+//						_multiLoader.get(i).removeEventListener(Event.COMPLETE,onImgInit);
+//						_multiLoader.get(i).removeEventListener(ProgressEvent.PROGRESS,onImgProgress);
+//						_multiLoader.get(i).removeEventListener(BulkLoader.ERROR,onError);
+//					}
+//				}
+				var item:LoadingItem;
+				const nLength:int = _multiLoader._itemsTotal;
+				for(var b:int=0;b<nLength;b++){
+					item = _multiLoader.items[b];
+					item.removeEventListener(Event.COMPLETE,onImgInit);
+					item.removeEventListener(ProgressEvent.PROGRESS,onImgProgress);
+					item.removeEventListener(BulkLoader.ERROR,onError);
 				}
 			}
 			
