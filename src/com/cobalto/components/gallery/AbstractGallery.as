@@ -93,27 +93,22 @@ package com.cobalto.components.gallery
 		//* multiloader
 		public function startMultiLoader():void
 		{
-			
+
 			createMenu();
 			
 			_isStarted = true;
-			
 			_multiLoader = BulkLoader.createUniqueNamedLoader();
-			
-			//var loaderContext:LoaderContext = new LoaderContext();
-			//loaderContext.checkPolicyFile = true;
+			 
+		
 			var l:uint = urlArray.length;
 			
 			for(var i:int = 0;i < l; i++)
 			{
-				//_multiLoader.add(urlArray[i],{id:"img" + i,type:"image",index:i,context:loaderContext});
 				_multiLoader.add(urlArray[i],{id:i,type:BulkLoader.TYPE_IMAGE,index:i});
-				_multiLoader.get(i).addEventListener(Event.COMPLETE,onImgInit);
-				_multiLoader.get(i).addEventListener(ProgressEvent.PROGRESS,onImgProgress);
-				_multiLoader.get(i).addEventListener(BulkLoader.ERROR,onError);
-				//_multiLoader.get("img" + i).addEventListener(BulkLoader.HTTP_STATUS,onHttpStatusHandler);
-				
-				
+				_multiLoader.get(urlArray[i]).addEventListener(Event.COMPLETE,onImgInit);
+				_multiLoader.get(urlArray[i]).addEventListener(ProgressEvent.PROGRESS,onImgProgress);
+				_multiLoader.get(urlArray[i]).addEventListener(BulkLoader.ERROR,onError);
+				//_multiLoader.get("img" + i).addEventListener(BulkLoader.HTTP_STATUS,onHttpStatusHandler);	
 			}
 			
 			_multiLoader.addEventListener(BulkLoader.PROGRESS,onImgProgress);

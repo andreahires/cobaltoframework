@@ -1,6 +1,6 @@
 ﻿/**
- * VERSION: 1.671
- * DATE: 2011-08-09
+ * VERSION: 1.672
+ * DATE: 2011-08-29
  * AS3 (AS2 version is also available)
  * UPDATES AND DOCS AT: http://www.greensock.com/timelinelite/
  **/
@@ -113,7 +113,7 @@ package com.greensock {
  **/
 	public class TimelineLite extends SimpleTimeline {
 		/** @private **/
-		public static const version:Number = 1.671;
+		public static const version:Number = 1.672;
 		/** @private **/
 		private static var _overwriteMode:int = (OverwriteManager.enabled) ? OverwriteManager.mode : OverwriteManager.init(2); //Ensures that TweenLite instances don't overwrite each other before being put into the timeline/sequence.
 		/** @private **/
@@ -265,12 +265,13 @@ package com.greensock {
 				timeOrLabel = Number(_labels[timeOrLabel]);
 			}
 			
-			if (!tween.cachedOrphan && tween.timeline) {
-				tween.timeline.remove(tween, true); //removes from existing timeline so that it can be properly added to this one. Even if the timeline is this, it still needs to be removed so that it can be added in the appropriate order (required for proper rendering)
+			var prevTimeline:SimpleTimeline = tween.timeline;
+			if (!tween.cachedOrphan && prevTimeline) {
+				prevTimeline.remove(tween, true); //removes from existing timeline so that it can be properly added to this one. Even if the timeline is this, it still needs to be removed so that it can be added in the appropriate order (required for proper rendering)
 			}
 			tween.timeline = this;
 			tween.cachedStartTime = Number(timeOrLabel) + tween.delay;
-			if (tween.cachedPaused) {
+			if (tween.cachedPaused && prevTimeline != this) { //we only adjust the cachedPauseTime if it wasn't in this timeline already. Remember, sometimes a tween will be inserted again into the same timeline when its startTime is changed so that the tweens in the TimelineLite/Max are re-ordered properly in the linked list (so everything renders in the proper order). 
 				tween.cachedPauseTime = tween.cachedStartTime + ((this.rawTime - tween.cachedStartTime) / tween.cachedTimeScale);
 			}
 			if (tween.gc) {

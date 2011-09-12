@@ -1,6 +1,23 @@
 CHANGE LOG : GREENSOCK TWEENING PLATFORM
 ----------------------------------------
 
+2011-08-30
+---------------------------------------------
+BlitMask			0.23
+	- Fixed issue in BlitMask that could cause it not to draw/size itself correctly on the first render when the target is empty or isn't overlapping the masked area at all.
+
+2011-08-29
+---------------------------------------------
+TimelineLite			1.672
+SimpleTimeline			1.672
+	- Fixed issue that could cause a tween or timeline to play at the wrong time if its delay is changed while it is paused and then later play() is called.
+
+2011-08-26
+---------------------------------------------
+BlitMask				0.21
+	- Added BlitMask
+	- Fixed 1 pixel offset on the x-axis in certain situations for BlitMask
+
 2011-08-09
 ---------------------------------------------
 TimelineLite			1.671

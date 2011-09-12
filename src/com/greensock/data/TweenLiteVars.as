@@ -1,6 +1,6 @@
 /**
- * VERSION: 5.1
- * DATE: 2010-12-09
+ * VERSION: 5.13
+ * DATE: 2011-06-19
  * AS3
  * UPDATES AND DOCS AT: http://www.greensock.com/tweenvars/
  **/
@@ -50,7 +50,7 @@ package com.greensock.data {
  */	 
 	public class TweenLiteVars {
 		/** @private **/
-		public static const version:Number = 5.1;
+		public static const version:Number = 5.13;
 		
 		/** @private **/
 		protected var _vars:Object;
@@ -937,6 +937,45 @@ package com.greensock.data {
 				after = stage.quality;
 			}
 			return _set("stageQuality", {stage:stage, during:during, after:after}, true);
+		}
+		
+		/** 
+		 * Allows you to define an initial velocity at which a property (or multiple properties) will start tweening, 
+		 * as well as [optional] maximum and/or minimum end values and then it will calculate the appropriate landing 
+		 * position and plot a smooth course to it based on the easing equation you define (Quad.easeOut by default, 
+		 * as set in TweenLite). This is perfect for flick-scrolling or animating things as though they are being thrown.<br /><br />
+		 * 
+		 * In its simplest form, you can pass just the initial velocity for each property like this:<br /><br /><code>
+		 * {x:500, y:-300}</code><br /><br />
+		 * 
+		 * In the above example, <code>x</code> will animate at 500 pixels per second initially and 
+		 * <code>y</code> will animate at -300 pixels per second. Both will decelerate smoothly 
+		 * until they come to rest based on the tween's duration. <br /><br /> 
+		 * 
+		 * To impose maximum and minimum boundaries on the end values, use the nested object syntax 
+		 * with the <code>max</code> and <code>min</code> special properties like this:<br /><br /><code>
+		 * {x:{velocity:500, max:1024, min:0}, y:{velocity:-300, max:720, min:0}};
+		 * </code><br /><br />
+		 * 
+		 * Notice the nesting of the objects ({}). The <code>max</code> and <code>min</code> values refer
+		 * to the range for the final resting position (coordinates in this case), NOT the velocity. 
+		 * So <code>x</code> would always land between 0 and 1024 in this case, and <code>y</code> 
+		 * would always land between 0 and 720. If you want the target object to land on a specific value 
+		 * rather than within a range, simply set <code>max</code> and <code>min</code> to identical values. 
+		 * Also notice that you must define a <code>velocity</code> value for each property in the object syntax.<br /><br />
+		 * 
+		 * <code>throwProps</code> isn't just for tweening x and y coordinates. It works with any numeric 
+		 * property, so you could use it for spinning the <code>rotation</code> of an object as well. Or the 
+		 * <code>scaleX</code>/<code>scaleY</code> properties. Maybe the user drags to spin a wheel and
+		 * lets go and you want it to continue increasing the <code>rotation</code> at that velocity, 
+		 * decelerating smoothly until it stops.<br /><br />
+		 * 
+		 * ThrowPropsPlugin is a <a href="http://www.greensock.com/club/">Club GreenSock</a> membership benefit. 
+		 * You must have a valid membership to use this class without violating the terms of use. Visit 
+		 * <a href="http://www.greensock.com/club/">http://www.greensock.com/club/</a> to sign up or get more details.<br /><br />
+		 **/
+		public function throwProps(props:Object):TweenLiteVars {
+			return _set("throwProps", props, true);
 		}
 		
 		/** 
