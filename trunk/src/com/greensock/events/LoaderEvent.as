@@ -58,7 +58,7 @@ package com.greensock.events {
 		 * 
 		 * var curParent:DisplayObjectContainer = this.parent;<br />
 		 * while (curParent) { <br />
-		 *     if (curParent.hasOwnProperty("rawContent") &amp;&amp; curParent.hasOwnProperty("loader")) { <br />
+		 *     if (curParent.hasOwnProperty("rawContent") && curParent.hasOwnProperty("loader")) { <br />
 		 *         Object(curParent).loader.addEventListener("unload", dispose, false, 0, true); <br />
 		 *     }<br />
 		 *     curParent = curParent.parent;<br />
