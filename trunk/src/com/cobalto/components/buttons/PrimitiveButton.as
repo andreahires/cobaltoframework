@@ -262,14 +262,14 @@
 				_hitArea.removeEventListener(MouseEvent.MOUSE_DOWN,clicked);
 				_hitArea.removeEventListener(MouseEvent.MOUSE_OVER,over);
 				_hitArea.removeEventListener(MouseEvent.MOUSE_OUT,out);
-				MemoryUtils.removeFromStage(_hitArea);
+				//MemoryUtils.removeFromStage(_hitArea);
 			}
 			
 			if(stage)
 			{
 			}
 			
-			MemoryUtils.removeFromStage(_skin);
+			//MemoryUtils.removeFromStage(_skin);
 			_state = null;
 		
 		}
