@@ -22,9 +22,11 @@ package com.cobalto.core.controller
 				{
 					requestedIndexArray = siteTreeProxy.getIndexArrayFromAddress(ApplicationFacade.ERROR_PAGE_ADDRESS);
 				}
-				
-				sendNotification(ApplicationFacade.PAGE_CHANGE,requestedIndexArray.concat());
-				
+				try{
+					sendNotification(ApplicationFacade.PAGE_CHANGE,requestedIndexArray.concat());
+				}catch(e:Error){
+					
+				}
 				var mainMenuMediator:MainMenuMediator = facade.retrieveMediator(MainMenuMediator.NAME) as MainMenuMediator;
 				
 				if(mainMenuMediator)
