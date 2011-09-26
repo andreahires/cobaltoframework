@@ -27,6 +27,7 @@ package com.cobalto.core.controller
 				}catch(e:Error){
 					
 				}
+				
 				var mainMenuMediator:MainMenuMediator = facade.retrieveMediator(MainMenuMediator.NAME) as MainMenuMediator;
 				
 				if(mainMenuMediator)
