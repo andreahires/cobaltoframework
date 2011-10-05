@@ -2,7 +2,9 @@ package com.cobalto.components.buttons
 {
 	import flash.display.Sprite;
 	
-	public class PrimitiveHitArea extends Sprite
+	import org.casalib.display.CasaSprite;
+	
+	public class PrimitiveHitArea extends CasaSprite
 	{
 		
 		private var _id:uint = 0;
