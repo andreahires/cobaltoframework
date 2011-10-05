@@ -10,6 +10,8 @@
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
+	import org.casalib.display.CasaSprite;
+	
 	/*
 	   The class is useful to create a simple button
 	   the button create by itself a hitArea movieclip of 100X100 pixel
@@ -17,7 +19,7 @@
 	   it's possible to set the start width and height of the hitarea throught the contructor optional params
 	 */
 	
-	public class PrimitiveButton extends Sprite
+	public class PrimitiveButton extends CasaSprite
 	{
 		// *** the id of the button
 		private var _id:int;
@@ -56,7 +58,6 @@
 			_state = STATE_INIT;
 			drawHitArea();
 			
-			addEventListener(Event.REMOVED_FROM_STAGE,destroy);
 		}
 		
 		//** create the hitArea
@@ -251,11 +252,11 @@
 			_isActivable = value;
 		}
 		
-		public function destroy(e:Event=null):void
+		override public function destroy():void
 		{
 			
-			removeEventListener(Event.REMOVED_FROM_STAGE,destroy);
-			
+			super.destroy();
+
 			if(_hitArea)
 			{
 				

@@ -51,7 +51,8 @@ package com.cobalto.components.pages
 			}
 			else
 			{
-				removeChild(pageInstance);
+				pageInstance.destroy();
+				//removeChild(pageInstance);
 			}
 			
 			pageInstance = null;

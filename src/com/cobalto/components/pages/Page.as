@@ -3,10 +3,11 @@ package com.cobalto.components.pages
 {
 	import com.cobalto.api.IViewComponent;
 	
-	import flash.display.Sprite;
 	import flash.events.Event;
 	
-	public class Page extends Sprite implements IViewComponent
+	import org.casalib.display.CasaSprite;
+	
+	public class Page extends CasaSprite implements IViewComponent
 	{
 		public static const TRANSITION_IN_COMPLETE:String = "transitionInComplete";
 		public static const TRANSITION_OUT_COMPLETE:String = "transitionOutComplete";
@@ -87,6 +88,11 @@ package com.cobalto.components.pages
 		{
 			pageState = TRANSITION_OUT_DONE;
 			dispatchEvent(new Event(TRANSITION_OUT_COMPLETE,false));
+		}
+		
+		override public function destroy():void
+		{
+			super.destroy();
 		}
 		
 		public function set id(pageId:int):void
