@@ -18,6 +18,7 @@ package com.cobalto.core.model
 		protected var assetList:Array;
 		protected var loadedItems:Array = new Array();
 		protected var _params:Object;
+		protected var isProxyPersistent:Boolean = false;
 		
 		public function AbstractAssetsProxy(proxyName:String,assetListRef:Array=null)
 		{
@@ -79,6 +80,16 @@ package com.cobalto.core.model
 		public function get params():Object
 		{
 			return _params;
+		}
+
+		public function set isPersistent(val:Boolean):void
+		{
+			isProxyPersistent = val;
+		}
+		
+		public function get isPersistent():Boolean
+		{
+			return isProxyPersistent;
 		}
 	
 	}
