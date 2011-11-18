@@ -92,6 +92,9 @@ package com.cobalto.components.pages
 			while(i < length)
 			{
 				var button:PrimitiveButton = linksHolder.getChildByName('LINKSBUTTON' + i) as PrimitiveButton;
+				button.removeEventListener(PrimitiveButton.BUTTON_CLICKED,onLinkClickHandler);
+				button.removeEventListener(PrimitiveButton.BUTTON_OVER,onLinkOverHandler);
+				button.removeEventListener(PrimitiveButton.BUTTON_OUT,onLinkOutHandler);
 				this.removeChild(button);
 				++i;
 			}

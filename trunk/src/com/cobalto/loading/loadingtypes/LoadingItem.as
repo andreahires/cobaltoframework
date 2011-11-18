@@ -38,6 +38,7 @@ package com.cobalto.loading.loadingtypes {
     
     import flash.display.*;
     import flash.events.*;
+    import flash.external.ExternalInterface;
     import flash.net.*;
     import flash.utils.*;
     
@@ -329,6 +330,7 @@ package com.cobalto.loading.loadingtypes {
             errorEvent = e as ErrorEvent;
             e.stopPropagation();
         	_dispatchErrorEvent(errorEvent);
+	
         }
         
         /**
