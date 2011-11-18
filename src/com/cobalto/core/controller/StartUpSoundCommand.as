@@ -12,14 +12,10 @@ package com.cobalto.core.controller
 	{
 		override public function execute(notification:INotification):void
 		{
-			
-		
+
 			var object:Object={};
 			object.type="sound";
-			
-
-			
-			object.url="http://piaggio-author.openmindonline.it/mediaObject/swf/mainAssets/SoundLibrary2/original/SoundLibrary2.swf"
+			object.url="assets/SoundLibrary.swf"
 			var soundProxy:SoundProxy = new SoundProxy([object]);
 			facade.registerProxy(soundProxy);
 
